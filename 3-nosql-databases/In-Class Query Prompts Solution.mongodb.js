@@ -1,0 +1,53 @@
+// # Query Prompts 
+
+// Find a single document for a customer named "Emma."
+// Hint: Use findOne() to retrieve only one document.
+
+db.customers.findOne({ name: "Emma" })
+
+// Retrieve all customers who are 30 years old or older.
+// Hint: Use $gte to filter customers based on the age field.
+
+db.customers.find({ age: { $gte: 30 } })
+
+// Find customers who live in either "Chicago" or "Los Angeles."
+// Hint: Use $or to filter for multiple city values.
+
+db.customers.find({ $or: [{ city: "Chicago" }, { city: "Los Angeles" }] })
+
+// Find customers who are not from "New York."
+// Hint: Use $not or $ne to exclude a specific city.
+
+db.customers.find({ city: { $ne: "New York" } })
+db.customers.find({ city: { $not: { $eq: "New York" } } })
+
+
+// Find customers who have an account balance greater than $5,000 but less than $9,000.
+// Hint: Use $gt and $lt together in a query.
+
+db.customers.find({ account_balance: { $gt: 5000, $lt: 9000 } })
+
+// Find customers who like both "hiking" and "reading."
+// Hint: Since hobbies are stored as an array, you need to check for both values inside it.
+
+db.customers.find({ hobbies: { $all: ["hiking", "reading"] } })
+
+// Count the number of customers who are currently active (is_active: true).
+// Hint: Use .countDocuments().
+
+db.customers.countDocuments({ is_active: true })
+
+// Sort all customers by their account balance in descending order and return the top five.
+// Hint: Use .sort() with -1 and .limit().
+
+db.customers.find().sort({ account_balance: -1 }).limit(5)
+
+// Find all customers who have a hobby that contains the word "coding."
+// Hint: Use $text search if indexing is enabled, or a regex pattern.
+
+db.customers.find({ $text: { $search: "coding" } })
+
+// Retrieve the five oldest customers, skipping the first three results.
+// Hint: Use .sort() with -1 for age, .skip(), and .limit().
+
+db.customers.find().sort({ age: -1 }).skip(3).limit(5)
